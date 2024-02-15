@@ -1,4 +1,5 @@
 ﻿using AdaFood.Models;
+using AdaFood.RequestModels;
 
 namespace AdaFood.Repositorio
 {
@@ -21,6 +22,11 @@ namespace AdaFood.Repositorio
         public Entregador? GetByCPF(string cpf)
         {
             return listaEntregadores.FirstOrDefault(entregador => entregador.CPF == cpf);
+        }
+
+        public List<Entregador> GetAll()
+        {
+            return listaEntregadores;
         }
     }
 }

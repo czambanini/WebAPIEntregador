@@ -1,11 +1,14 @@
-﻿using AdaFood.Repositorio;
+﻿using AdaFood.Filters;
+using AdaFood.Repositorio;
+using AdaFood.RequestModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdaFood.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
+    [TratamentoErroFiltro]
     public class EntregadorController : ControllerBase
     {
         private readonly IEntregadorRepository _repository;
@@ -15,14 +18,21 @@ namespace AdaFood.Controllers
             _repository = repository;
         }
 
-        [HttpPost("adicionarEntregador")]
-        public IActionResult AddEntregador([FromBody] EntregadorRequest entregadorRequest)
+        [HttpGet]
+        public IActionResult Get()
         {
-            _repository.Add(entregadorRequest);
-            return Created();
+            return Ok(_repository.GetAll());
         }
 
-        [HttpGet("buscarEntregador/{CPF}")]
+        [HttpPost("adicionar")]
+        [AutorizacaoFiltro]
+        public IActionResult Post([FromBody] EntregadorRequest entregadorRequest, bool UsuarioLogado)
+        {
+            _repository.Add(entregadorRequest);
+            return Ok();
+        }
+
+        [HttpGet("buscar/{CPF}")]
         public IActionResult Get(string CPF)
         {
             return Ok(_repository.GetByCPF(CPF));

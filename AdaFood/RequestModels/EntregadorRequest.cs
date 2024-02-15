@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AdaFood
+namespace AdaFood.RequestModels
 {
     public class EntregadorRequest
     {
