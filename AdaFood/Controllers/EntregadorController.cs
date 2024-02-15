@@ -25,7 +25,7 @@ namespace AdaFood.Controllers
 
         [HttpPost("adicionar")]
         [AutorizacaoFiltro]
-        public IActionResult Post([FromBody] EntregadorRequest entregadorRequest) //, bool UsuarioLogado
+        public IActionResult Post([FromBody] EntregadorRequest entregadorRequest, bool UsuarioLogado)
         {
             _repository.Add(entregadorRequest);
             return Ok();
