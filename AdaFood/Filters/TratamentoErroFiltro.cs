@@ -4,14 +4,20 @@ using System.Net;
 
 namespace AdaFood.Filters
 {
-    public class TratamentoErroFiltro : Attribute, IExceptionFilter
+    public class TratamentoErroFiltro : IAsyncExceptionFilter
     {
-        public void OnException(ExceptionContext context)
+        public async Task OnExceptionAsync(ExceptionContext context)
         {
-            if (context.Exception is NotImplementedException)
+            var objectResponse = new
             {
-                context.Result = new BadRequestObjectResult(new { Messege = "Erro :(" });
-            }
+                ErrorMessege = "Erro :("
+            };
+            context.Result = new ObjectResult(objectResponse)
+            {
+            StatusCode = 500
+            };
+
+            await Task.CompletedTask;
         }
     }
 

@@ -8,7 +8,6 @@ namespace AdaFood.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [TratamentoErroFiltro]
     public class EntregadorController : ControllerBase
     {
         private readonly IEntregadorRepository _repository;
@@ -26,7 +25,7 @@ namespace AdaFood.Controllers
 
         [HttpPost("adicionar")]
         [AutorizacaoFiltro]
-        public IActionResult Post([FromBody] EntregadorRequest entregadorRequest, bool UsuarioLogado)
+        public IActionResult Post([FromBody] EntregadorRequest entregadorRequest) //, bool UsuarioLogado
         {
             _repository.Add(entregadorRequest);
             return Ok();
@@ -36,6 +35,15 @@ namespace AdaFood.Controllers
         public IActionResult Get(string CPF)
         {
             return Ok(_repository.GetByCPF(CPF));
+        }
+
+        [HttpGet("TesteErro")]
+        public IActionResult Get(bool erro)
+        {
+            if (erro) {
+                throw new Exception ("Erro. Frase no controller");
+            };
+            return Ok();
         }
 
     }
